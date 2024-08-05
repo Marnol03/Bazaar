@@ -1,4 +1,4 @@
-# GetEyes
+# Bazaar
 just for Holidays 🙃 the goal ist to do a complet Marketplace using React and Typscript  without forgetting Docker for our Database(Postgres)
 # Developper-stack
   - __Docker__ : to read more about docker and how to install visit [link](https://www.docker.com/get-started/)
@@ -7,6 +7,6 @@ just for Holidays 🙃 the goal ist to do a complet Marketplace using React and 
 # Get started
   - to clone the projet.
 ```shell
-git clone https://github.com/Marnol03/GetEyes.git
+git clone https://github.com/Marnol03/Bazaar.git
 ```
 
