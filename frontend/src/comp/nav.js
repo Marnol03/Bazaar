@@ -1,6 +1,5 @@
 import React from "react";
-import { FaBeer } from "react-icons/fa";
-import { GoListUnordered } from "react-icons/go";
+
 
 const Nav = () => {
     return (
@@ -8,7 +7,7 @@ const Nav = () => {
         <div className="header">
             <div className="top_header">
                 <div className="logo">
-                    
+                    <image src= "./../public/images/r.png" alt="img"/>
                 </div>
             </div>
         </div>
