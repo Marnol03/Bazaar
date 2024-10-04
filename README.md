@@ -1,5 +1,5 @@
 # Bazaar
-the goal ist to do a complet Marketplace using React and laravel  without forgetting Docker for our Database(Postgres)
+the goal ist to do a complet Marketplace using React and Nodejs (Graphql)  without forgetting Docker for our Database(Postgres)
 # Developper-stack
   - __Docker__ : to read more about docker and how to install visit [link](https://www.docker.com/get-started/)
   - __nodemon__ : to read more about nodemon and how to install visit [link](https://nodejs.org/en)
