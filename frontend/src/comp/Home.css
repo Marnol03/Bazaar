@@ -1,0 +1,332 @@
+
+:root{
+    --police: 'Inter' ;
+    
+  }.nav {
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    height: 5%;
+    top: 0;
+    background: #524EB1;
+    border: 1px solid #000000;
+  }
+  
+  .camion,
+  .trait,
+  .baazar-app,
+  .telecharger {
+    position: absolute;
+    font-family: var(--police);
+    color: #FFFFFF;
+  }
+  
+  .camion {
+    /* Livraison */
+    width: 8%;
+    height: 3%;
+    top: 1%;
+    left: 15%;
+    font-weight: 400;
+    font-size: 2em;
+    line-height: 1.5em;
+  }
+  
+  .trait {
+    /* Line 2 */
+    width: 80%;
+    height: 0;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
+    border: 1px solid #FFFFFF;
+  }
+  
+  .baazar-app {
+    /* Bazaar-App */
+    width: 7%;
+    height: 3%;
+    top: 15%;
+    left: 80%;
+    font-weight: 700;
+    font-size: 1.5em;
+    line-height: 1.5em;
+  }
+  
+  .telecharger {
+    /* Telecharger */
+    width: 9%;
+    height: 3%;
+    top: 0%;
+    left: 80%;
+    font-weight: 400;
+    font-size: 1.5em;
+    line-height: 1.5em;
+  }
+  
+  /* Media Queries for responsiveness */
+  @media only screen and (max-width: 768px) {
+    .nav {
+      height: 8%;
+    }
+  
+    .camion,
+    .trait,
+    .baazar-app,
+    .telecharger {
+      font-size: 1.2em;
+    }
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .nav {
+      height: 10%;
+    }
+  
+    .camion,
+    .trait,
+    .baazar-app,
+    .telecharger {
+      font-size: 1em;
+    }
+  }
+  
+    /* Deuxieme groupe*/
+    .barrecherche {
+      position: absolute;
+      width: 100%; /* Utilise 100% pour rendre la largeur responsive */
+      max-width: 1420px; /* Limite la largeur maximale */
+      height: 119px;
+      left: 50%; /* Centre horizontalement */
+      transform: translateX(-50%); /* Centre le conteneur */
+      top: 9%;
+  }
+  
+  .recherche {
+      box-sizing: border-box;
+      position: absolute;
+      width: 80%; /* Utilise un pourcentage pour la largeur */
+      max-width: 300px; /* Limite la largeur maximale */
+      height: 50px; /* Corrigé de 050px à 50px */
+      left: 50%; /* Centre horizontalement */
+      transform: translateX(-50%); /* Centre le champ de recherche */
+      top: 1%;
+      background: #D9D9D9;
+      opacity: 1;
+      border: 2px solid #000000;
+      border-radius: 15px;
+  }
+  
+  .connexion {
+      position: absolute;
+      width: 20%; /* Utilise un pourcentage pour la largeur */
+      max-width: 183px; /* Limite la largeur maximale */
+      height: 15px;
+      left: 90%;
+      top: 3%;
+      font-family: var(--police);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 22px;
+      color: #000000;
+  }
+  
+  /* Media Query pour des écrans plus petits */
+  @media (max-width: 768px) {
+      .barrecherche {
+          height: auto; /* Ajuste la hauteur pour les petits écrans */
+          top: 5%; /* Ajuste la position */
+      }
+  
+      .recherche {
+          width: 90%; /* Augmente la largeur pour les petits écrans */
+          top: 5%; /* Ajuste la position */
+      }
+  
+      .connexion {
+          font-size: 24px; /* Réduit la taille de la police */
+          top: 5%; /* Ajuste la position */
+      }
+  }
+    
+    
+    
+   
+  
+       /* Troisieme groupe*/
+  
+       .barcategorie {
+        font-family: var(--police);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 36px;
+        line-height: 41px;
+    
+        position: absolute;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        height: 7%;
+        left: 50%;
+        top: 17%;
+        border: 2px solid #000000;
+        padding: 10px;
+        width: 95%;
+        background-color: #f0f0f0;
+        margin: 0%;
+        transform: translateX(-50%);
+    }
+      .barcategorie ul {
+        display: flex;
+        justify-content: center; /* Centrer les éléments horizontalement */
+        list-style-type: none;
+        padding: 0;
+        position: absolute; /* Positionnement absolu par rapport à .barcategorie */
+        bottom: 0;
+        width: 100%;
+        
+      }
+      .barcategorie ul li {
+           border-bottom: 2px solid #ccc;
+           padding: 1px;
+           margin-right: 5%;
+          
+      } 
+      /* les a ne fonctionne ^pas ? */
+      .barcategorie a{
+        text-decoration: none;
+        color: inherit;
+        cursor: auto;
+      }
+    
+    /* Media Query pour les petits écrans */
+    @media only screen and (max-width: 600px) {
+        .barcategorie {
+            font-size: 24px;
+            line-height: 28px;
+            top: 45%;
+        }
+    
+        .barcategorie ul li {
+            padding: 3px;
+            margin-right: 5%;
+        }
+    }
+       /* quatrieme groupe*/
+  
+      /* images  */
+      .logo{
+      
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 85%;
+      height: 30%;
+      left: 7%;
+      top: 29%;
+      }
+      .imgcommerce{
+        width: 95%;
+        height: 100%;
+        margin-right: 2%;
+  
+      }
+      
+  
+       /* cinquieme groupe*/
+       .article{
+        border: 2px solid #000000;
+        position: absolute;
+        width: 98%;
+        height: 38%;
+        left: 15px;
+        top: 60%;
+        justify-content: center;
+      align-items: center;
+      }
+      .article ul{
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+      }
+  
+      
+    .article ul il {
+         border-bottom: 1px solid #ccc;
+         padding: 5px;
+         margin-right: 7%;
+        
+    } 
+  
+  
+  
+      .bloc-article{
+        position: absolute;
+        border: 2px solid #000000;
+        width: 15%;
+        height: 88%;
+        left: 30px; 
+        top: 10%;
+        justify-content: center;
+      align-items: center;
+      }
+      .bloc-images{
+        position: absolute;
+        border: 2px solid #000000;
+        left: 5%; 
+        height: 65%;
+        width: 90%;
+        top: 3%;
+        
+      }
+      .nom-article{
+        
+      position: absolute;
+      left: 50px;
+      top: 67%;
+      font-family: var(--police);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 37px;
+      /* identical to box height */
+      color: #000000;
+      }
+      .prix-article{
+          /* 5425 */
+        position: absolute;
+        left: 50px;
+        top: 80%;
+  
+        font-family: var(--police);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 37px;
+        /* identical to box height */
+        color: #3EB046;
+  
+      }
+      .note-article{
+        /* 4.1 */
+        position: absolute;
+        
+        left: 90%;
+        top: 90%;
+  
+        font-family: var(--police);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 23px;
+        /* identical to box height */
+        color: #000000;
+      }
+      .fcfa{
+        color: #000000;
+      }
+     
+  
+  
+  
+  
