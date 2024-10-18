@@ -1,0 +1,21 @@
+.nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #502dd1;
+    width: 100%;
+    height: 50px;
+    color: white;
+    font-size: 28px;
+}
+.camion span{
+    font-size: 35px;
+    top: 20px;
+}
+.trait{
+    background-color: white;
+    position: absolute;
+    height: 60px;
+    width: 4px;
+    left: 50%;
+}

@@ -1,0 +1,190 @@
+
+:root{
+    --police: 'Inter' ;
+    
+  }
+
+.barrecherche{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* //Logo //recherche //connexion*/
+.logo{
+    width: 150px;
+    height: 150px;
+}
+
+.recherche{
+    width: 25%;
+    height: 50px;
+    padding: 0%;
+    display: flex;
+    align-items: center;
+    background-color: rgb(219, 231, 244);
+    border: solid 1px black;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.int_recherche{
+    height: 40px;
+    width: 80%;
+    margin: 0 10px 0 5px;
+    font-size: 20px;
+    font-family: var(--police);
+}
+.iconrecherche{
+    font-size: 30px;
+}
+
+.barrecherche_right{
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+}
+.connexion{
+    font-size: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+.iconpanier{
+    font-size: 30px;
+    margin: 10px 60px 0px 0;
+}
+/* //Logo //recherche //connexion///////////////////////////////////////////////*/
+
+/* //Categorie */
+.barcategorie {
+  margin-top: 10px;
+  background-color: #f8f9fa; 
+  padding: 10px 20px;
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+}
+
+.barcategorie ul {
+  list-style: none; 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  gap: 20px; 
+  margin: 0;
+  padding: 0;
+}
+.Cat{
+  font-size: 25px;
+  font-family: var(--police);
+}
+.barcategorie li {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+}
+
+.barcategorie select {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.barcategorie a {
+  text-decoration: none;
+  color: #007bff; 
+  transition: color 0.3s;
+}
+
+.barcategorie a:hover {
+  color: #0056b3; 
+}
+
+.barcategorie select,
+.barcategorie a {
+  font-size: 20px; 
+}
+/* //Categorie///////////////////////////////////////////////*/
+
+/* //Au Top */
+.Au_top {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: solid 1px black;
+}
+
+.grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+.card {
+  min-width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 0 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.card img {
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.card p {
+  font-size: 16px;
+  color: #333;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  font-size: 50px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: #333;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  color: #007bff;
+}
+
+.card p span {
+  font-size: 22px;
+  font-weight: bold;
+  color: #48e51d;
+}
