@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter  } from "react-router-dom";
-import Home from "./comp/Home";
+import Connexion from "./connexion";
+import Login from "./login";
+
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
-      <Home/>
-      
-      
+      <Login/>
       
       </BrowserRouter>
     </>

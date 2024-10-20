@@ -1,0 +1,108 @@
+
+:root{
+  --couleur : #3F16B9;
+  
+  
+  }
+  
+  body{
+    top: 0;
+    left: 0;
+    margin: 0;
+    height: 100hv;
+    width: 100%;
+    
+  }
+ 
+  
+  
+  
+  .submit{
+    /* Rectangle 16 */
+  
+  box-sizing: border-box;
+  color: aliceblue;
+  
+  width: 25%;
+  height: 59px;
+  
+  
+  background: #754AF5;
+  border: 1px solid #000000;
+  border-radius: 15px;
+  
+  }
+  
+
+/* Style général du formulaire */
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.5);
+    border: 2px solid #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: larger;
+}
+
+/* Aligne les étiquettes et les champs de saisie */
+.form div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Style des étiquettes */
+.form label {
+  flex: 1;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+/* Style des champs de saisie */
+.form input,
+.form select {
+  flex: 2;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style des icônes */
+.form label svg {
+  color: var(--couleur); /* Change la couleur des icônes */
+  margin-right: 5px; /* Espace entre l'icône et le texte */
+}
+
+/* Style du bouton de soumission */
+.submit {
+  background-color: var(--couleur);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: auto; /* Permet de pousser le bouton à droite */
+    display: block;
+}
+
+.submit:hover {
+  background-color: #754AF5;
+}
+.confition_dutilisateur{
+  color: var(--couleur);
+}
+.form img {
+  height: 120px;
+  width: 120px;
+  position: relative;
+  left: 33%;
+  margin-top: -67px;
+}
+
+
+
