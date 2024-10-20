@@ -1,9 +1,32 @@
 
 import React, { useState } from 'react';
-import Sms from './images/sms.jpeg';
+import Sms from '../images/sms.jpeg';
+import logo from '../images/logo.png';
 import  { FaStar } from 'react-icons/fa';
-import './comp/connexion.css';
+import { FaCartPlus } from "react-icons/fa";
+import { IoIosLogIn } from "react-icons/io"
+import './connexion.css';
  
+
+const Barrecherche = () => {
+  return (
+    <div>
+      <div className='barrecherche'>  
+        <img src={logo} className="logo" alt="logo" />
+        <div className='langue'>
+            <select  id='langue'     >
+              <option value="francais" data-image= {<FaStar/>}>Français</option>
+              <option value="Anglais" data-image= {<FaStar/>}>Anglais</option>
+            </select>
+        </div>
+        <div className='barrecherche_right'>
+          <div className='iconpanier' ><FaCartPlus /></div>
+          <div className='connexion' > <IoIosLogIn />S'inscrire </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ContactForm() {
   
@@ -48,33 +71,32 @@ function ContactForm() {
 
   return (
     <>
-      
+      <Barrecherche />
       <form onSubmit={handleSubmit} className='form' align="center">
         <img src={Sms} className="imgcommerce" alt="img" />
           <div>
             <label htmlFor='email'> <FaStar/>  E-mail  </label>
+          </div> 
+          <div>
             <input type='text' id='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Tapez votre email..." />
+          </div>
+           
+          <div>
+            <label htmlFor='numero'> <FaStar/>  Telefone  </label>
+          </div>
+          <div>
+            <span class="prefix">+237</span>
+            <input type='number' id='numero' value={numero} onChange={(e) => setNumero(e.target.value)} placeholder="confirmez votre mot de passe ..." />
           </div>
 
           <div>
             <label htmlFor='mot_de_passe'> <FaStar/>  Mot de passe  </label>
+          </div> 
+          <div>
             <input type='password' id='mot_de_passe' value={mot_de_passe} onChange={(e) => setMot_de_passe(e.target.value)} placeholder="Tapez votre mot de passe ..."  />
           </div>
 
-          
-
-          <div>
-            <label htmlFor='numero'> <FaStar/>  Telefone  </label>
-            <span class="prefix">+237</span>
-            <input type='number' id='numero' value={numero} onChange={(e) => setNumero(e.target.value)} placeholder="confirmez votre mot de passe ..." />
-          </div>
-          <div>
-            <input type='checkbox' id='condition'  /> En cochant vous accepter les condition utilisateur <span className='confition_dutilisateur' > --condition utilisateur--</span>
-          </div>
-
-
-
-          <button type='submit' className='submit' >Envoyer</button>
+          <button type='submit' className='submit' >Connecter</button>
       </form>
 
 

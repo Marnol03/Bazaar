@@ -1,9 +1,32 @@
 
 import React, { useState } from 'react';
 import  { FaStar } from 'react-icons/fa';
-import './comp/connexion.css';
+import logo from '../images/logo.png';
+import Sms from '../images/sms.jpeg';
+import { FaCartPlus } from "react-icons/fa";
+import { IoIosLogIn } from "react-icons/io";
+import './connexion.css';
  
 
+const Barrecherche = () => {
+  return (
+    <div>
+      <div className='barrecherche'>  
+        <img src={logo} className="logo" alt="logo" />
+        <div className='langue'>
+            <select  id='langue'     >
+              <option value="francais" data-image= {<FaStar/>}>Français</option>
+              <option value="Anglais" data-image= {<FaStar/>}>Anglais</option>
+            </select>
+        </div>
+        <div className='barrecherche_right'>
+          <div className='iconpanier' ><FaCartPlus /></div>
+          <div className='connexion' > <IoIosLogIn />Se connecter </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 function ContactForm() {
   
   const [name, setName] = useState('');
@@ -44,6 +67,8 @@ function ContactForm() {
         alert('Le numéro de téléphone doit être exactement 9 chiffres.');
         return;
     }
+
+    
     // Ta logique de soumission ici
     console.log({
         pays,
@@ -57,15 +82,15 @@ function ContactForm() {
 
   return (
     <>
+      <Barrecherche />
       
       <form onSubmit={handleSubmit} className='form' align="center">
-
+      <img src={Sms} className="imgcommerce" alt="img" />
           <div>
             <label htmlFor='pays'> <FaStar/>  Pays</label>
             <select  id='pays'   value={pays} onChange={(e) => setPays(e.target.value)} >
               <option value="cameroun" data-image= {<FaStar/>}>Cameroun</option>
             </select>
-            
           </div>
 
           <div>
