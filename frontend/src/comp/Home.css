@@ -113,7 +113,7 @@
 
 /* //Au Top */
 .Au_top {
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   text-align: center;
 }
@@ -123,8 +123,10 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  border: solid 1px black;
+  border: none;
 }
+
+
 
 .grid {
   display: flex;
@@ -134,6 +136,7 @@
 }
 
 .card {
+  position: relative;
   min-width: 200px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -142,7 +145,10 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
-
+.card:hover{
+    margin-top: -15px;
+    transition: 0s;
+}
 .card img {
   width: 200px;
   height: 200px;
@@ -186,5 +192,48 @@
 .card p span {
   font-size: 22px;
   font-weight: bold;
-  color: #48e51d;
+  color: #030303;
+}
+
+.add_card{
+  position:relative;
+  font-size: 18px;
+  background-color:#64bf4a;
+  color: white;
+  border-style: none;
+  border-radius: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stars {
+  display: flex;
+  margin: 5px 0;
+}
+
+.stars svg {
+  color: #FFD700; 
+  margin-right: 2px;
+  font-size: 18px;
+}
+.note_prix{
+  display:flex;
+  align-items: center;
+}
+.add_card:hover{
+  width: 70px;
+  transition: 0.5s;
+  height: 30px;
+}
+
+.badge-reduction {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4c4c;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  font-weight: bold;
 }

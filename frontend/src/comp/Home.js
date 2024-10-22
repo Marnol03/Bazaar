@@ -8,11 +8,11 @@ import nike from '../images/nike.jpeg';
 import jordan from '../images/jordan.jpeg';
 import rolex from '../images/rolex.png';
 
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
-import { FaChevronLeft } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa6";
+import { IoMdAdd } from "react-icons/io";
+import Footer from './Footer';
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
       <Categories/>
       <Autop/>
       <Art/>
+      <Footer/>
     </>  
   );
 }
@@ -63,6 +64,20 @@ const Categories = () => {
   );
 }
 
+const renderStars = (note) => {
+  const fullStars = Math.floor(note); 
+  const halfStar = note % 1 >= 0.5; 
+  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0); 
+
+  return (
+    <div className="stars">
+      {Array(fullStars).fill(<FaStar />)} 
+      {halfStar && <FaStarHalfAlt />} 
+      {Array(emptyStars).fill(<FaRegStar />)}
+    </div>
+  );
+};
+
 
 const Art = () => {
   // simulation de la récupération des articles de la base de données
@@ -71,12 +86,12 @@ const Art = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = [
-        { id: 1, nom: 'Jogging', prix: 5425, imageUrl: jogging },
-        { id: 2, nom: 'Jordan nike', prix: 12954, imageUrl: jordan },
-        { id: 3, nom: 'Galaxy s22', prix: 145250, imageUrl: phone },
-        { id: 4, nom: 'Hp computer', prix: 97230, imageUrl: laptop },
-        { id: 5, nom: 'Nike', prix: 12954, imageUrl: nike },
-        { id: 6, nom: 'Rolex', prix: 733839, imageUrl: rolex },
+        { id: 1, nom: 'Jogging', prix: 5425, imageUrl: jogging, note : 2.4 },
+        { id: 2, nom: 'Jordan nike', prix: 12954, imageUrl: jordan, note : 4.8 },
+        { id: 3, nom: 'Galaxy s22', prix: 145250, imageUrl: phone, note : 4.0 },
+        { id: 4, nom: 'Hp computer', prix: 97230, imageUrl: laptop, note : 5 },
+        { id: 5, nom: 'Nike', prix: 12954, imageUrl: nike, note : 4.4 },
+        { id: 6, nom: 'Rolex', prix: 733839, imageUrl: rolex, note : 3.7 },
       ];
       setArticles(data); 
     };
@@ -103,6 +118,8 @@ const Art = () => {
               <img src={article.imageUrl} alt={article.nom} />
               <h3>{article.nom}</h3>
               <p>Prix: <span>{article.prix}</span> FCFA</p>
+              <span className='note_prix'> {renderStars(article.note)} {article.note}</span> 
+              <button className='add_card'> add <IoMdAdd /></button>
             </div>
           ))}
         </div>
@@ -122,12 +139,12 @@ const Autop = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = [
-        { id: 1, nom: 'Jogging', prix: 5425, imageUrl: jogging },
-        { id: 2, nom: 'Galaxy s22', prix: 145250, imageUrl: phone },
-        { id: 3, nom: 'Hp computer', prix: 97230, imageUrl: laptop },
-        { id: 4, nom: 'Nike', prix: 12954, imageUrl: nike },
-        { id: 5, nom: 'Jordan nike', prix: 12954, imageUrl: jordan },
-        { id: 6, nom: 'Rolex', prix: 733839, imageUrl: rolex },
+        { id: 1, nom: 'Jogging', prix: 5425, imageUrl: jogging ,note : 2.4,reduction: true},
+        { id: 2, nom: 'Galaxy s22', prix: 145250, imageUrl: phone, note : 4.0,reduction: true },
+        { id: 3, nom: 'Hp computer', prix: 97230, imageUrl: laptop, note : 5,reduction: true },
+        { id: 4, nom: 'Nike', prix: 12954, imageUrl: nike, note : 4.4,reduction: false },
+        { id: 5, nom: 'Jordan nike', prix: 12954, imageUrl: jordan, note : 4.8,reduction: true },
+        { id: 6, nom: 'Rolex', prix: 733839, imageUrl: rolex, note : 3.7,reduction: true },
       ];
       setArticles(data); 
     };
@@ -143,7 +160,7 @@ const Autop = () => {
   };
   return (
     <div className="Au_top">
-      <h1>Au Top...</h1>
+      <h1>En réduction</h1>
       <div className="carousel">
         <button className="arrow left" onClick={scrollLeft}>
           <FaChevronLeft />
@@ -151,9 +168,12 @@ const Autop = () => {
         <div className="grid" ref={containerRef}>
           {articles.map((article) => (
             <div key={article.id} className="card">
+              {article.reduction && <span className="badge-reduction">Réduction!!!</span>} 
               <img src={article.imageUrl} alt={article.nom} />
               <h3>{article.nom}</h3>
               <p>Prix: <span>{article.prix}</span> FCFA</p>
+              <span className='note_prix'> {renderStars(article.note)} {article.note}</span> 
+              <button className='add_card'> add <IoMdAdd /></button>
             </div>
           ))}
         </div>
