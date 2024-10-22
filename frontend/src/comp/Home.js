@@ -1,5 +1,6 @@
 
 import './Home.css';
+import ContactForm from './connexion.js'
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../images/logo.png';
 import jogging from '../images/jogging.jpeg';
@@ -38,7 +39,7 @@ const Barrecherche = () => {
         </div>
         <div className='barrecherche_right'>
           <div className='iconpanier' ><FaCartPlus /></div>
-          <div className='connexion' > <IoIosLogIn />Connexion </div>
+          <div className='connexion' > <IoIosLogIn /><a href='#' >Connexion </a></div>
         </div>
       </div>
     </div>

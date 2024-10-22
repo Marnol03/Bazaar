@@ -5,7 +5,7 @@ import Login from "./comp/login";
 
 
 import Home from "./comp/Home";
-import Nav from "./comp/nav";
+import Nav from "./comp/Nav";
 
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
       <BrowserRouter>
 
       <Nav/>
-      <Login/>
+      <Home/>
 
       </BrowserRouter>
     </>
