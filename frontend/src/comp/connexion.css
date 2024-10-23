@@ -1,0 +1,152 @@
+:root {
+  --primary-color: #502dd1;
+  --secondary-color: white;
+  --font-family: 'Arial', sans-serif;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-family);
+}
+
+
+.page-container {
+  display: flex;
+  height: 100vh; /* Pleine hauteur de la fenêtre */
+  background-color: var(--secondary-color);
+}
+
+.left-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 10px;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-color);
+  padding: 20px;
+}
+
+.form-container {
+  background-color: var(--secondary-color);
+  padding:40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-container .logo {
+  display: block;
+  margin: 0 auto 20px;
+  height: 100px;
+}
+
+.form-container h2 {
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+  font-size: 20px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 17px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 17px;
+}
+
+.submit-button:hover {
+  background-color: #3b21b1; /* Couleur légèrement plus sombre au survol */
+}
+
+/* Style de la section droite */
+.right-section img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.social-login {
+  text-align: center;
+  margin-top: 20px;
+  color: black;
+  left: 50%;
+}
+
+.google-login, .Facebook-login{
+  color: black;
+  border: solid 1px black;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 15px;
+  margin: 5px;
+  cursor: pointer;
+  width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-login:hover, .Facebook-login:hover {
+  background-color: #dad8e2; /* Couleur légèrement plus sombre au survol */
+}
+
+.toggle-form {
+  text-align: center;
+  color: var(--primary-color);
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.toggle-form:hover {
+  text-decoration: underline; /* Souligner au survol */
+}
+
+.facebook_logo, .google_logo{
+  width: 45px;
+  height: 40px;
+}

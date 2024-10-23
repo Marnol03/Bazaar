@@ -1,17 +1,21 @@
 import React from "react";
-import { BrowserRouter  } from "react-router-dom";
-import Home from "./comp/Home";
-import Nav from "./comp/Nav";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+
+import Home from "./comp/Home"; 
+import Connexion from "./comp/connexion";
+
 
 const App = () => {
   return (
-    <>
-      <BrowserRouter>
-      <Nav/>
-      <Home/>
-      </BrowserRouter>
-    </>
+    <Router>
+      <Routes>
+        {/* Définissez vos routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/connexion" element={<Connexion />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
