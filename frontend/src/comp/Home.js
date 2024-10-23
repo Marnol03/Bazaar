@@ -1,6 +1,5 @@
 
 import './Home.css';
-import ContactForm from './connexion.js'
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../images/logo.png';
 import jogging from '../images/jogging.jpeg';
@@ -14,11 +13,14 @@ import { FaSearch, FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt, FaRegSt
 import { FaCartPlus } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
+import Nav from './Nav';
 
 function App() {
   return (
     <>
+      <Nav/>
       <Barrecherche/>
       <Categories/>
       <Autop/>
@@ -28,7 +30,14 @@ function App() {
   );
 }
 
+
+
 const Barrecherche = () => {
+  const navigate = useNavigate();
+
+  const ConnexionClick = () => {
+    navigate('/connexion'); 
+  };
   return (
     <div>
       <div className='barrecherche'>  
@@ -39,7 +48,10 @@ const Barrecherche = () => {
         </div>
         <div className='barrecherche_right'>
           <div className='iconpanier' ><FaCartPlus /></div>
-          <div className='connexion' > <IoIosLogIn /><a href='#' >Connexion </a></div>
+          <div className="connexion" onClick={ConnexionClick}>
+            <IoIosLogIn />
+            <span>Connection</span>
+          </div>
         </div>
       </div>
     </div>
