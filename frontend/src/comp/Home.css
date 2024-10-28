@@ -204,14 +204,16 @@
 
 .add_card{
   position:relative;
-  font-size: 18px;
+  font-size: 20px;
   background-color:#64bf4a;
   color: white;
   border-style: none;
-  border-radius: 10%;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 50px;
 }
 .stars {
   display: flex;
@@ -228,9 +230,7 @@
   align-items: center;
 }
 .add_card:hover{
-  width: 70px;
-  transition: 0.5s;
-  height: 30px;
+  background-color:#54a13f;
 }
 
 .badge-reduction {
@@ -243,4 +243,67 @@
   font-size: 12px;
   border-radius: 5px;
   font-weight: bold;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+.modal-content img{
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.desc{
+  width: 50%;
+  font-size: 20px;
+}
+.desc p{
+  margin-top: 10px;
+  display: flex;
 }
