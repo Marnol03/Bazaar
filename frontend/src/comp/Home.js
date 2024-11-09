@@ -1,5 +1,5 @@
 
-import './Home.css';
+import '../css/Home.css';
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../images/logo.png';
 import jogging from '../images/jogging.jpeg';
@@ -9,13 +9,14 @@ import nike from '../images/nike.jpeg';
 import jordan from '../images/jordan.jpeg';
 import rolex from '../images/rolex.png';
 
+
 import { FaSearch, FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
-import Nav from './Nav';
+import Nav from './nav';
 
 function App() {
   return (

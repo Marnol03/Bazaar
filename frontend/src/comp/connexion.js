@@ -6,9 +6,9 @@ import Facebook from '../images/facebook.png';
 import Google from '../images/google.png';
 import { FaCartPlus } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
-import './connexion.css';
+import '../css/connexion.css';
 import pubImage from '../images/pubImage.png'
-import Nav from './Nav';
+import Nav from './nav';
 
 const Connexion = () => {
   const [isLogin, setIsLogin] = useState(true); // État pour basculer entre le formulaire de connexion et d'inscription

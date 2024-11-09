@@ -1,4 +1,4 @@
-import './nav.css';
+import '../css/nav.css';
 import React from "react";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { LiaCarSideSolid } from "react-icons/lia";

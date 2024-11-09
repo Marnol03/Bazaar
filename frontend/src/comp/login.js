@@ -5,7 +5,7 @@ import logo from '../images/logo.png';
 import  { FaStar } from 'react-icons/fa';
 import { FaCartPlus } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io"
-import './connexion.css';
+import '../css/connexion.css';
  
 
 const Barrecherche = () => {
