@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 import Home from "./comp/Home"; 
-import Profil from "./comp/profil"; 
+import Profil from "./client/compte"; 
 import Connexion from "./comp/connexion";
 
 

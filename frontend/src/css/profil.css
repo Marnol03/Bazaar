@@ -138,19 +138,39 @@ body {
 }
 
 /* ==================main============== */
+/* ==================main============== */
 
 .main {
   position: absolute;
-  width: calc(100% - 300px);
   left: 230px;
-  min-height: 100vh;
+  right: 0;
+  top: 0;
+  bottom: 0;
   background: var(--white);
   transition: 0.5s;
 }
 
 .main.active {
-  width: calc(100% - 80px);
   left: 80px;
+}
+
+.container {
+  display: flex;
+}
+
+.navigation {
+  flex: 0 0 220px; /* Ne change pas de taille */
+  height: 100%;
+  background: var(--couleur);
+  border-left: 10px solid var(--couleur);
+  transition: width 0.5s;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1; /* Prend tout l'espace restant */
+  min-height: 100vh;
+  transition: 0.5s;
 }
 
 .topbar {
@@ -162,6 +182,7 @@ body {
   padding: 0 10px;
   background-color: #f8f9fa;
   border: 1px solid #ddd;
+  
 }
 
 .toggle {
