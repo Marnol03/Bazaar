@@ -77,8 +77,8 @@ function App() {
   
       {/* ========================== main ======================== */}
       
-      <div className='main' > 
-          <div ref={mainRef} className='topbar' >
+      <div ref={mainRef} className='main' > 
+          <div  className='topbar' >
               <div className='toggle' onClick={handleToggleClick} > <IoMdMenu /> </div>
   
                 {/* Recuperation du nom  */}
