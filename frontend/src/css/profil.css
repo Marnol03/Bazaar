@@ -193,6 +193,7 @@ body {
   align-items: center;
   font-size: 2.5rem;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .search {
@@ -248,4 +249,13 @@ body {
   border: 1px solid #ccc;
   background-color: #fff;
   cursor: pointer;
+}
+
+/*==================== content ============*/
+.content {
+  position: relative;
+  width: 80%;
+  padding: 20px;
+  left:15%;
+  padding-top: 7%;
 }
