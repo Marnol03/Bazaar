@@ -115,11 +115,12 @@ const Autop = () => {
       <h1>En réduction</h1>
       <div className="carousel">
         <button className="arrow left" onClick={scrollLeft}><FaChevronLeft /></button>
+        {console.log(articles)}
         <div className="grid" ref={containerRef}>
           {articles.map((article) => (
             <div key={article.id} className="card">
               {article.reduction && <span className="badge-reduction">Réduction!!!</span>}
-              <img src={`http://localhost:5001${article.imageUrl}`} alt={article.nom} />
+              <img src={articles.imageurl} alt={article.nom} />
               <h3>{article.nom}</h3>
               <p>Prix: <span>{article.prix}</span> FCFA</p>
               <span className='note_prix'>{renderStars(article.note)} {article.note}</span>

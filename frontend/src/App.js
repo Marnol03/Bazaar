@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./comp/Home"; 
 import Connexion from "./comp/connexion";
+import ResetPassword from "./comp/ResetPassword";
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
         {/* Définissez vos routes */}
         <Route path="/" element={<Home />} />
         <Route path="/connexion" element={<Connexion />} />
+        <Route path="/connexion/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

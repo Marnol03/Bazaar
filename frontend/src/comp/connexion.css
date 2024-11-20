@@ -150,3 +150,10 @@ body, html {
   width: 45px;
   height: 40px;
 }
+.num{
+  display: flex;
+  justify-content: space-between;
+}
+.num div{
+  width: 45%;
+}

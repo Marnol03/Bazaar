@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import { FaStar } from 'react-icons/fa';
 import logo from '../images/logo.png';
-import Sms from '../images/sms.jpeg';
 import Facebook from '../images/facebook.png';
 import Google from '../images/google.png';
-import { FaCartPlus } from "react-icons/fa";
-import { IoIosLogIn } from "react-icons/io";
 import './connexion.css';
-import pubImage from '../images/pubImage.png'
-import Nav from './Nav';
+import pubImage from '../images/pubImage.png';
+import Notification from './Notification';
+
 
 const Connexion = () => {
-  const [isLogin, setIsLogin] = useState(true); // État pour basculer entre le formulaire de connexion et d'inscription
-
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <div className="page-container">
       <div className="left-section">
@@ -34,32 +30,109 @@ const Connexion = () => {
   );
 };
 
+
 const LoginForm = ({ setIsLogin }) => {
   const [email, setEmail] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const showNotification = () => {
+    setIsNotificationVisible(true);
+    setTimeout(() => setIsNotificationVisible(false), 2000); 
+  };
+  var notMessage = "Connection reussie!";
+
+  const resetClick = () => {
+    fetch('http://localhost:5001/api/recover-password',{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email})
+    })
+      .then(response => response.json())
+      .then(data => {
+        notMessage = data.message; 
+        showNotification();   
+      })
+      .catch(error => {
+        console.error("Erreur lors de la récupération du mot de passe :", error);
+      });
+  };
+  const handleSubmit = async (e) => {
+    setErrors({});
     e.preventDefault();
-    // Logique de soumission de formulaire pour la connexion
+
+    if (!email || !motDePasse) {
+      setErrors({ general: 'Tous les champs sont requis' });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5001/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, motDePasse }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        //setMessage('Connexion réussie');
+        notMessage = "Connection reussie!";
+        showNotification();
+      } else {
+        setErrors({ general: 'E-mail ou mot de passe incorrect.' });
+      }
+    } catch (error) {
+      setErrors({ general: 'Erreur de connexion. Veuillez réessayer.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="form">
+        {isNotificationVisible && (
+        <Notification
+          message = {notMessage}
+          duration={2000} 
+          onClose={() => console.log("Notification fermée")}
+        />
+      )}
+      {errors.general && <div className="error">{errors.general}</div>}
       <div className="form-group">
         <label htmlFor="email">E-mail</label>
-        <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Entrez votre email" />
-        {errors.email && <div className="error">{errors.email}</div>}
+        <input
+          type="text"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Entrez votre email"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="motDePasse">Mot de passe</label>
-        <input type="password" id="motDePasse" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} placeholder="Entrez votre mot de passe" />
-        {errors.motDePasse && <div className="error">{errors.motDePasse}</div>}
+        <input
+          type="password"
+          id="motDePasse"
+          value={motDePasse}
+          onChange={(e) => setMotDePasse(e.target.value)}
+          placeholder="Entrez votre mot de passe"
+        />
       </div>
-
-      <button type="submit" className="submit-button">Se connecter</button>
-      <p className="toggle-form" onClick={() => setIsLogin(false)}>Pas encore de compte ? Inscrivez-vous</p>
+      <p className="toggle-form" onClick={resetClick}>Mot de passe oublié?</p>
+      <button type="submit" className="submit-button" disabled={loading}>
+        {loading ? 'Chargement...' : 'Se connecter'}
+      </button>
+      <p className="toggle-form" onClick={() => setIsLogin(false)}>
+        Pas encore de compte ? Inscrivez-vous
+      </p>
     </form>
   );
 };
@@ -70,163 +143,114 @@ const RegisterForm = ({ setIsLogin }) => {
   const [motDePasse, setMotDePasse] = useState('');
   const [cmotDePasse, setCmotDePasse] = useState('');
   const [errors, setErrors] = useState({});
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Logique de soumission de formulaire pour l'inscription
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="form">
-      <div className="form-group">
-        <label htmlFor="name">Nom Complet</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Entrez votre nom" />
-        {errors.name && <div className="error">{errors.name}</div>}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="email">E-mail</label>
-        <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Entrez votre email" />
-        {errors.email && <div className="error">{errors.email}</div>}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="motDePasse">Mot de passe</label>
-        <input type="password" id="motDePasse" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} placeholder="Entrez votre mot de passe" />
-        {errors.motDePasse && <div className="error">{errors.motDePasse}</div>}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="cmotDePasse">Confirmation Mot de Passe</label>
-        <input type="password" id="cmotDePasse" value={cmotDePasse} onChange={(e) => setCmotDePasse(e.target.value)} placeholder="Confirmez votre mot de passe" />
-        {errors.cmotDePasse && <div className="error">{errors.cmotDePasse}</div>}
-      </div>
-
-      <button type="submit" className="submit-button">S'inscrire</button>
-      <p className="toggle-form" onClick={() => setIsLogin(true)}>Déjà un compte ? Connectez-vous</p>
-    </form>
-  );
-};
-
-
-const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [pays, setPays] = useState('cameroun');
-  const [motDePasse, setMotDePasse] = useState('');
-  const [cmotDePasse, setCmotDePasse] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
   const [numero, setNumero] = useState('');
-  const [errors, setErrors] = useState({});
 
-  const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-  const validateNumero = (value) => /^\d{9}$/.test(value.trim());
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-    if (!e.target.value) {
-      setErrors((prev) => ({ ...prev, name: 'Veuillez entrer votre nom.' }));
-    } else {
-      setErrors((prev) => ({ ...prev, name: '' }));
-    }
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    if (!validateEmail(e.target.value)) {
-      setErrors((prev) => ({ ...prev, email: 'Veuillez entrer un email valide.' }));
-    } else {
-      setErrors((prev) => ({ ...prev, email: '' }));
-    }
-  };
-
-  const handleMotDePasseChange = (e) => {
-    setMotDePasse(e.target.value);
-    if (e.target.value.length < 6) {
-      setErrors((prev) => ({ ...prev, motDePasse: 'Le mot de passe doit contenir au moins 6 caractères.' }));
-    } else {
-      setErrors((prev) => ({ ...prev, motDePasse: '' }));
-    }
-  };
-
-  const handleCmotDePasseChange = (e) => {
-    setCmotDePasse(e.target.value);
-    if (e.target.value !== motDePasse) {
-      setErrors((prev) => ({ ...prev, cmotDePasse: 'Les mots de passe ne correspondent pas.' }));
-    } else {
-      setErrors((prev) => ({ ...prev, cmotDePasse: '' }));
-    }
-  };
-
-  const handleNumeroChange = (e) => {
-    setNumero(e.target.value);
-    if (!validateNumero(e.target.value)) {
-      setErrors((prev) => ({ ...prev, numero: 'Le numéro de téléphone doit comporter exactement 9 chiffres.' }));
-    } else {
-      setErrors((prev) => ({ ...prev, numero: '' }));
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setErrors({});
     e.preventDefault();
 
-    if (!name || !email || !motDePasse || !cmotDePasse || !numero) {
-      alert('Veuillez remplir tous les champs.');
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      alert('Veuillez entrer un email valide.');
+    if (!name || !email || !motDePasse || !cmotDePasse) {
+      setErrors({ general: 'Tous les champs sont requis' });
       return;
     }
 
     if (motDePasse !== cmotDePasse) {
-      alert('Les mots de passe ne correspondent pas.');
+      setErrors({ general: 'Les mots de passe ne correspondent pas.' });
       return;
     }
 
-    if (!validateNumero(numero)) {
-      alert('Le numéro de téléphone doit être exactement 9 chiffres.');
-      return;
-    }
+    setLoading(true);
 
-    // Soumettre les informations
-    console.log({
-      pays,
-      name,
-      email,
-      motDePasse,
-      cmotDePasse,
-      numero,
-    });
+    try {
+      const response = await fetch('http://localhost:5001/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, motDePasse, numero, name }),
+      });
+
+      const data = await response.json();
+
+      console.log(data.message);
+
+      if (data.success) {
+        setMessage('Inscription réussie');
+        setIsLogin(true); // Passer au formulaire de connexion après inscription
+      } else {
+        setErrors({ general: 'Erreur lors de l\'inscription.' });
+      }
+    } catch (error) {
+      setErrors({ general: 'Erreur de connexion. Veuillez réessayer.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="form">
+      {errors.general && <div className="error">{errors.general}</div>}
       <div className="form-group">
         <label htmlFor="name">Nom Complet</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Entrez votre nom" />
-        {errors.name && <div className="error">{errors.name}</div>}
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Entrez votre nom"
+        />
+      </div>
+
+      <div className='num'><div className="form-group">
+        <label htmlFor="numero">Tel</label>
+        <input
+          type="tel"
+          id="numero"
+          value={numero}
+          onChange={(e) => setNumero(e.target.value)}
+          placeholder="+2376********"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="email">E-mail</label>
-        <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Entrez votre email" />
-        {errors.email && <div className="error">{errors.email}</div>}
-      </div>
+        <input
+          type="text"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Entrez votre email"
+        />
+      </div></div>
 
       <div className="form-group">
         <label htmlFor="motDePasse">Mot de passe</label>
-        <input type="password" id="motDePasse" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} placeholder="Entrez votre mot de passe" />
-        {errors.motDePasse && <div className="error">{errors.motDePasse}</div>}
+        <input
+          type="password"
+          id="motDePasse"
+          value={motDePasse}
+          onChange={(e) => setMotDePasse(e.target.value)}
+          placeholder="Entrez votre mot de passe"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="cmotDePasse">Confirmation Mot de Passe</label>
-        <input type="password" id="cmotDePasse" value={cmotDePasse} onChange={(e) => setCmotDePasse(e.target.value)} placeholder="Confirmez votre mot de passe" />
-        {errors.cmotDePasse && <div className="error">{errors.cmotDePasse}</div>}
+        <input
+          type="password"
+          id="cmotDePasse"
+          value={cmotDePasse}
+          onChange={(e) => setCmotDePasse(e.target.value)}
+          placeholder="Confirmez votre mot de passe"
+        />
       </div>
 
-      <button type="submit" className="submit-button">Envoyer</button>
+      <button type="submit" className="submit-button" disabled={loading}>
+        {loading ? 'Chargement...' : 'S\'inscrire'}
+      </button>
+      <p className="toggle-form" onClick={() => setIsLogin(true)}>
+        Déjà un compte ? Connectez-vous
+      </p>
     </form>
   );
 };

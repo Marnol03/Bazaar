@@ -80,7 +80,6 @@ function ContactForm() {
           <div>
             <input type='text' id='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Tapez votre email..." />
           </div>
-           
           <div>
             <label htmlFor='numero'> <FaStar/>  Telefone  </label>
           </div>
