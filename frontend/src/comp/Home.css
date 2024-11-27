@@ -288,6 +288,9 @@
   background: transparent;
   font-size: 1.5em;
   cursor: pointer;
+  color: #333;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @keyframes fadeIn {

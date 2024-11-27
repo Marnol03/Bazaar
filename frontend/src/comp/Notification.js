@@ -15,7 +15,7 @@ const Notification = ({ message, duration = 5000, onClose }) => {
                         onClose(); 
                         return 0;
                     }
-                return prev + 0.5; 
+                return prev + 0.7; 
             });
         }, duration / 200); 
 

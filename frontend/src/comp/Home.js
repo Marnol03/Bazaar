@@ -84,12 +84,13 @@ const renderStars = (note) => {
 
 const Autop = () => {
   const [articles, setArticles] = useState([]);
+  const [selectedArticle, setSelectedArticle] = useState(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/articles'); //pour les reductions
+        const response = await fetch('http://localhost:5001/api/articles'); 
         const data = await response.json();
         setArticles(data);
       } catch (error) {
@@ -99,6 +100,13 @@ const Autop = () => {
 
     fetchData();
   }, []);
+  const openModal = (article) => {
+    setSelectedArticle(article);
+  };
+
+  const closeModal = () => {
+    setSelectedArticle(null);
+  };
 
   const scrollLeft = () => {
     containerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
@@ -118,9 +126,9 @@ const Autop = () => {
         {console.log(articles)}
         <div className="grid" ref={containerRef}>
           {articles.map((article) => (
-            <div key={article.id} className="card">
+            <div key={article.id} className="card" onClick={() => openModal(article)}>
               {article.reduction && <span className="badge-reduction">Réduction!!!</span>}
-              <img src={articles.imageurl} alt={article.nom} />
+              <img src={article.imageurl} alt={article.nom} />
               <h3>{article.nom}</h3>
               <p>Prix: <span>{article.prix}</span> FCFA</p>
               <span className='note_prix'>{renderStars(article.note)} {article.note}</span>
@@ -129,6 +137,7 @@ const Autop = () => {
         </div>
         <button className="arrow right" onClick={scrollRight}><FaChevronRight /></button>
       </div>
+      {selectedArticle && <Modal article={selectedArticle} onClose={closeModal} />}
     </div>
   );
 };
@@ -141,7 +150,7 @@ const Modal = ({ article, onClose }) => {
       <div className="modal-content">
         <button className="close-button" onClick={onClose}>X</button>
         <div>
-        <img src={`http://localhost:5001${article.imageUrl}`} alt={article.nom} />
+        <img src={article.imageurl} alt={article.nom} />
         </div>
         <div className='desc'>
           <h2>{article.nom}</h2>
@@ -201,7 +210,7 @@ const Art = () => {
         <div className="grid" ref={containerRef}>
           {articles.map((article) => (
             <div key={article.id} className="card" onClick={() => openModal(article)}>
-              <img src={(article.imageUrl)} alt={article.nom} />
+              <img src={article.imageurl} alt={article.nom} />
               {Print(article.imageUrl)}
               <h3>{article.nom}</h3>
               <p>Prix: <span>{article.prix}</span> FCFA</p>

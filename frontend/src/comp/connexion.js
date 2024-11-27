@@ -6,6 +6,7 @@ import './connexion.css';
 import pubImage from '../images/pubImage.png';
 import Notification from './Notification';
 
+var notMessage = " ";
 
 const Connexion = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -52,13 +53,13 @@ const LoginForm = ({ setIsLogin }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email})
     })
-      .then(response => response.json())
+      .then(response =>response.json())
       .then(data => {
-        notMessage = data.message; 
-        showNotification();   
+        console.log(data);
+        
       })
       .catch(error => {
-        console.error("Erreur lors de la récupération du mot de passe :", error);
+        console.log("Erreur lors de la récupération du mot de passe :", error);
       });
   };
   const handleSubmit = async (e) => {
@@ -81,10 +82,12 @@ const LoginForm = ({ setIsLogin }) => {
 
       const data = await response.json();
 
-      if (data.success) {
-        //setMessage('Connexion réussie');
+      if (data.message === 'Connexion réussie.') {
         notMessage = "Connection reussie!";
         showNotification();
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
       } else {
         setErrors({ general: 'E-mail ou mot de passe incorrect.' });
       }
@@ -146,6 +149,12 @@ const RegisterForm = ({ setIsLogin }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [numero, setNumero] = useState('');
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const showNotification = () => {
+    setIsNotificationVisible(true);
+    setTimeout(() => setIsNotificationVisible(false), 2000); 
+  };
+
 
   const handleSubmit = async (e) => {
     setErrors({});
@@ -174,9 +183,13 @@ const RegisterForm = ({ setIsLogin }) => {
 
       console.log(data.message);
 
-      if (data.success) {
-        setMessage('Inscription réussie');
-        setIsLogin(true); // Passer au formulaire de connexion après inscription
+      if (data.message ==='Utilisateur enregistré avec succès.') {
+        notMessage = "Inscription reussie! Veuillez vous connecter.";
+        showNotification();
+
+        setTimeout(() => {
+          setIsLogin(true);
+      }, 3000);
       } else {
         setErrors({ general: 'Erreur lors de l\'inscription.' });
       }
@@ -190,6 +203,13 @@ const RegisterForm = ({ setIsLogin }) => {
   return (
     <form onSubmit={handleSubmit} className="form">
       {errors.general && <div className="error">{errors.general}</div>}
+      {isNotificationVisible && (
+        <Notification
+          message = {notMessage}
+          duration={3000} 
+          onClose={() => console.log("Notification fermée")}
+        />
+      )}
       <div className="form-group">
         <label htmlFor="name">Nom Complet</label>
         <input
