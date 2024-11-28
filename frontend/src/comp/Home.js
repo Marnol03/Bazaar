@@ -8,25 +8,44 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Nav from './Nav';
 
+
+
 function App() {
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    try {
+      const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const totalItems = currentCart.reduce((total, item) => total + item.quantity, 0);
+      setCartCount(totalItems);
+    } catch (error) {
+      console.error("Erreur lors de la récupération du panier:", error);
+      setCartCount(0);
+    }
+  }, []);
+
   return (
     <>
-      <Nav/>
-      <Barrecherche/>
-      <Categories/>
-      <Autop/>
-      <Art/>
-      <Footer/>
-    </>  
+      <Nav />
+      <BarreRecherche cartCount={cartCount} />
+      <Categories />
+      <Autop setCartCount={setCartCount}/>
+      <Art setCartCount={setCartCount}/>
+      <Footer />
+    </>
   );
 }
 
-const Barrecherche = () => {
+const BarreRecherche = ({ cartCount }) => {
   const navigate = useNavigate();
 
   const ConnexionClick = () => {
-    navigate('/connexion'); 
+    navigate('/connexion');
   };
+  const handleCartClick = () => {
+    navigate('/panier'); 
+  };
+
   return (
     <div>
       <div className='barrecherche'>  
@@ -36,7 +55,10 @@ const Barrecherche = () => {
           <div className='iconrecherche'><FaSearch /></div>
         </div>
         <div className='barrecherche_right'>
-          <div className='iconpanier'><FaCartPlus /></div>
+          <div className='iconpanier' onClick={handleCartClick}>
+            <FaCartPlus />
+            <span className="cart-count">{cartCount}</span>
+          </div>
           <div className="connexion" onClick={ConnexionClick}>
             <IoIosLogIn />
             <span>Connection</span>
@@ -46,6 +68,7 @@ const Barrecherche = () => {
     </div>
   );
 };
+
 
 const Categories = () => {
   return (
@@ -82,10 +105,11 @@ const renderStars = (note) => {
   );
 };
 
-const Autop = () => {
+const Autop = ({ setCartCount }) => {
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const containerRef = useRef(null);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,37 +161,54 @@ const Autop = () => {
         </div>
         <button className="arrow right" onClick={scrollRight}><FaChevronRight /></button>
       </div>
-      {selectedArticle && <Modal article={selectedArticle} onClose={closeModal} />}
+      {selectedArticle && <Modal article={selectedArticle} onClose={closeModal} setCartCount={setCartCount}/>}
     </div>
   );
 };
 
-const Modal = ({ article, onClose }) => {
+const Modal = ({ article, onClose, setCartCount}) => {
+
   if (!article) return null;
+
+  const addToCart = () => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItem = currentCart.find((item) => item.id === article.id);
+
+    if (existingItem) {
+      existingItem.quantity += 1; 
+    } else {
+      currentCart.push({ ...article, quantity: 1 }); // Ajouter un nouvel article
+    }
+
+    localStorage.setItem("cart", JSON.stringify(currentCart));
+
+    const totalItems = currentCart.reduce((total, item) => total + item.quantity, 0);
+    setCartCount(totalItems);
+    onClose();
+  };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="close-button" onClick={onClose}>X</button>
         <div>
-        <img src={article.imageurl} alt={article.nom} />
+          <img src={article.imageurl} alt={article.nom} />
         </div>
         <div className='desc'>
           <h2>{article.nom}</h2>
           <p>Taille disponible : M, L, XL</p>
           <p>Quantité : 10</p>
-          <span className='note_prix'>{renderStars(article.note)} {article.note}</span>
-          <p>Dernier commentaire :</p>
-          <p>Lorem ipsum dolor sit amet...</p>
           <p className='p_modal'>Prix: <span>{article.prix}</span> FCFA </p>
-          <button className='add_card'><IoMdAdd />Ajouter au panier</button>
+          <button className='add_card' onClick={addToCart}>
+            <IoMdAdd /> Ajouter au panier
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-const Art = () => {
+const Art = ({ setCartCount }) => {
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const containerRef = useRef(null);
@@ -220,7 +261,7 @@ const Art = () => {
         </div>
         <button className="arrow right" onClick={scrollRight}><FaChevronRight /></button>
       </div>
-      {selectedArticle && <Modal article={selectedArticle} onClose={closeModal} />}
+      {selectedArticle && <Modal article={selectedArticle} onClose={closeModal} setCartCount={setCartCount}/>}
     </div>
   );
 }
