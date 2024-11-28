@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom'; 
 import './ResetPassword.css';
+import Notification from './Notification';
+
+var notMessage = "Mot de passe réinitialisé avec succès!";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -10,6 +13,14 @@ const ResetPassword = () => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState('');
+
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+
+  const showNotification = () => {
+    setIsNotificationVisible(true);
+    setTimeout(() => setIsNotificationVisible(false), 2000); 
+  };
+
 
   const location = useLocation();
   const navigate = useNavigate(); // Utilisez useNavigate au lieu de useHistory
@@ -41,7 +52,9 @@ const ResetPassword = () => {
         newPassword
       });
 
-      setSuccess(response.data.message);
+      notMessage = "Mot de passe réinitialisé avec succès!";
+      showNotification();
+      
       setNewPassword('');
       setConfirmPassword('');
 
@@ -57,6 +70,13 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-password-container">
+        {isNotificationVisible && (
+        <Notification
+          message={notMessage}
+          duration={2000} 
+          onClose={() => console.log("Notification fermée")}
+        />
+      )}
       <h2>Réinitialiser votre mot de passe</h2>
       <form onSubmit={handleSubmit} className="reset-password-form">
         <div className="input-group">

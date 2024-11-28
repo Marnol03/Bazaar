@@ -1,107 +1,155 @@
-
+import React, { useState, useEffect } from 'react';
 import React, { useState } from 'react';
-import Sms from '../images/sms.jpeg';
 import logo from '../images/logo.png';
-import  { FaStar } from 'react-icons/fa';
-import { FaCartPlus } from "react-icons/fa";
-import { IoIosLogIn } from "react-icons/io"
+import Facebook from '../images/facebook.png';
+import Google from '../images/google.png';
 import './connexion.css';
- 
+import pubImage from '../images/pubImage.png';
+import Notification from './Notification';
 
-const Barrecherche = () => {
-  return (
-    <div>
-      <div className='barrecherche'>  
-        <img src={logo} className="logo" alt="logo" />
-        <div className='langue'>
-            <select  id='langue'     >
-              <option value="francais" data-image= {<FaStar/>}>Français</option>
-              <option value="Anglais" data-image= {<FaStar/>}>Anglais</option>
-            </select>
-        </div>
-        <div className='barrecherche_right'>
-          <div className='iconpanier' ><FaCartPlus /></div>
-          <div className='connexion' > <IoIosLogIn />S'inscrire </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ContactForm() {
-  
+const LoginForm = ({ setIsLogin }) => {
   const [email, setEmail] = useState('');
-  const [mot_de_passe, setMot_de_passe] = useState('');
-  const [numero, setNumero] = useState('');
+  const [motDePasse, setMotDePasse] = useState('');
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  
+  const showNotification = () => {
+    setIsNotificationVisible(true);
+    setTimeout(() => setIsNotificationVisible(false), 2000); 
+  };
+  
+  let notMessage = "Connexion réussie!";
+  
+  // Validation en temps réel des entrées
+  const validateForm = () => {
+    let formErrors = {};
+    
+    // Validation email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email) {
+      formErrors.email = "L'email est requis.";
+    } else if (!emailRegex.test(email)) {
+      formErrors.email = "L'email n'est pas valide.";
+    }
+    
+    // Validation mot de passe
+    if (!motDePasse) {
+      formErrors.motDePasse = "Le mot de passe est requis.";
+    } else if (motDePasse.length < 6) {
+      formErrors.motDePasse = "Le mot de passe doit contenir au moins 6 caractères.";
+    }
 
+    setErrors(formErrors);
+  };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    // Valider en temps réel à chaque modification
+    validateForm();
+  }, [email, motDePasse]);
+
+  const resetClick = () => {
+    notMessage = "Un email de récupération a été envoyé!";
+    showNotification();
+    fetch('http://localhost:5001/api/recover-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log("Erreur lors de la récupération du mot de passe :", error);
+      });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Vérifie que tous les champs sont remplis
-    if ( !email || !mot_de_passe || !numero) {
-      alert('Veuillez remplir tous les champs.');
-        return;
+    // Vérifier si le formulaire est valide avant de soumettre
+    if (Object.keys(errors).length > 0) {
+      return; // Ne pas soumettre si des erreurs existent
     }
-     // Vérifie que l'email est conforme
-     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); // Regex pour valider l'email
 
-     if (!isValidEmail) {
-         alert('Veuillez entrer un email valide.');
-         return;
-     }
+    setLoading(true);
 
-      
+    try {
+      const response = await fetch('http://localhost:5001/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, motDePasse }),
+      });
 
-    // Vérifie que le numéro de téléphone est au format correct
-    const numeroSansPrefixe = numero.trim(); // Supprime les espaces
-    const isValidNumero = /^\d{9}$/.test(numeroSansPrefixe); // Vérifie que le numéro est composé de 9 chiffres
+      const data = await response.json();
 
-    if (!isValidNumero) {
-        alert('Le numéro de téléphone doit être exactement 9 chiffres.');
-        return;
+      if (data.message === 'Connexion réussie.') {
+        notMessage = "Connexion réussie!";
+        showNotification();
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      } else {
+        setErrors({ general: 'E-mail ou mot de passe incorrect.' });
+      }
+    } catch (error) {
+      setErrors({ general: 'Erreur de connexion. Veuillez réessayer.' });
+    } finally {
+      setLoading(false);
     }
-    // Ta logique de soumission ici
-    console.log({
-        email,
-        mot_de_passe,
-        numero,
-    });
-};
+  };
 
   return (
-    <>
-      <Barrecherche />
-      <form onSubmit={handleSubmit} className='form' align="center">
-        <img src={Sms} className="imgcommerce" alt="img" />
-          <div>
-            <label htmlFor='email'> <FaStar/>  E-mail  </label>
-          </div> 
-          <div>
-            <input type='text' id='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Tapez votre email..." />
-          </div>
-          <div>
-            <label htmlFor='numero'> <FaStar/>  Telefone  </label>
-          </div>
-          <div>
-            <span class="prefix">+237</span>
-            <input type='number' id='numero' value={numero} onChange={(e) => setNumero(e.target.value)} placeholder="confirmez votre mot de passe ..." />
-          </div>
+    <form onSubmit={handleSubmit} className="form">
+      {isNotificationVisible && (
+        <Notification
+          message={notMessage}
+          duration={2000} 
+          onClose={() => console.log("Notification fermée")}
+        />
+      )}
+      {errors.general && <div className="error">{errors.general}</div>}
+      
+      {/* Champ email */}
+      <div className="form-group">
+        <label htmlFor="email">E-mail</label>
+        <input
+          type="text"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Entrez votre email"
+        />
+        {errors.email && <div className="error">{errors.email}</div>}
+      </div>
 
-          <div>
-            <label htmlFor='mot_de_passe'> <FaStar/>  Mot de passe  </label>
-          </div> 
-          <div>
-            <input type='password' id='mot_de_passe' value={mot_de_passe} onChange={(e) => setMot_de_passe(e.target.value)} placeholder="Tapez votre mot de passe ..."  />
-          </div>
+      {/* Champ mot de passe */}
+      <div className="form-group">
+        <label htmlFor="motDePasse">Mot de passe</label>
+        <input
+          type="password"
+          id="motDePasse"
+          value={motDePasse}
+          onChange={(e) => setMotDePasse(e.target.value)}
+          placeholder="Entrez votre mot de passe"
+        />
+        {errors.motDePasse && <div className="error">{errors.motDePasse}</div>}
+      </div>
+      
+      <p className="toggle-form" onClick={resetClick}>Mot de passe oublié?</p>
 
-          <button type='submit' className='submit' >Connecter</button>
-      </form>
+      <button type="submit" className="submit-button" disabled={loading || Object.keys(errors).length > 0}>
+        {loading ? 'Chargement...' : 'Se connecter'}
+      </button>
 
 
-    </>
- );  
-} 
+      <p className="toggle-form" onClick={() => setIsLogin(false)}>
+        Pas encore de compte ? Inscrivez-vous
+      </p>
+    </form>
+  );
+};
 
-
-export default ContactForm;
+export default LoginForm;

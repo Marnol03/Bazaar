@@ -109,7 +109,7 @@ app.post('/api/login', async (req, res) => {
 
         const isPasswordValid = await bcrypt.compare(motDePasse, user.rows[0].password);
         if (!isPasswordValid) {
-            console.log("mot de passe pareil a l\´ancien ");
+            
             return res.status(401).json({ message: 'Mot de passe incorrect.' });
         }
 
@@ -131,6 +131,7 @@ app.post('/api/recover-password', async (req, res) => {
         // Vérifie si l'utilisateur existe
         const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         if (user.rows.length === 0) {
+            console.log("utilisateur non trouvé");
             return res.status(400).json({ message: 'Utilisateur non trouvé.' });
         }
 
@@ -151,6 +152,7 @@ app.post('/api/recover-password', async (req, res) => {
         // Envoyer l'email
         await sendEmail(email, 'Réinitialisation de mot de passe', htmlContent);
 
+        console.log("Email de réinitialisation envoyé.");
         res.json({ message: 'Email de réinitialisation envoyé.' });
     } catch (error) {
         console.error(error);
@@ -162,7 +164,7 @@ app.post('/api/recover-password', async (req, res) => {
 // Route : Réinitialisation du mot de passe
 app.post('/api/reset-password', async (req, res) => {
     const { token, newPassword } = req.body;
-    console.table(req.body);
+
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
 
@@ -171,6 +173,7 @@ app.post('/api/reset-password', async (req, res) => {
         await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, decoded.id]);
         
         getuser();
+        console.log("mot de passe réinitialisé avec succès");
         res.json({ message: 'Mot de passe réinitialisé avec succès.' });
 
     } catch (error) {

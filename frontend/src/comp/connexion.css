@@ -43,8 +43,9 @@ body, html {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
+
 
 .form-container .logo {
   display: block;
@@ -86,6 +87,7 @@ body, html {
   color: red;
   font-size: 0.8em;
   margin-top: 5px;
+  display: inline;
 }
 
 .submit-button {

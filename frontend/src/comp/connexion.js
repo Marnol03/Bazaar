@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import logo from '../images/logo.png';
 import Facebook from '../images/facebook.png';
 import Google from '../images/google.png';
@@ -38,37 +38,73 @@ const LoginForm = ({ setIsLogin }) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-
-
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  
   const showNotification = () => {
     setIsNotificationVisible(true);
     setTimeout(() => setIsNotificationVisible(false), 2000); 
   };
-  var notMessage = "Connection reussie!";
+  
+  
+  // Validation en temps réel des entrées
+  const validateForm = () => {
+    let formErrors = {};
+    
+    // Validation email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email) {
+      formErrors.email = "L'email est requis.";
+    } else if (!emailRegex.test(email)) {
+      formErrors.email = "L'email n'est pas valide.";
+    }
+    
+    // Validation mot de passe
+    if (!motDePasse) {
+      formErrors.motDePasse = "Le mot de passe est requis.";
+    } else if (motDePasse.length < 6) {
+      formErrors.motDePasse = "Le mot de passe doit contenir au moins 6 caractères.";
+    }
+
+    setErrors(formErrors);
+  };
+
+  useEffect(() => {
+    // Valider en temps réel à chaque modification
+    validateForm();
+  }, [email, motDePasse]);
 
   const resetClick = () => {
-    fetch('http://localhost:5001/api/recover-password',{
+
+    fetch('http://localhost:5001/api/recover-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email})
+      body: JSON.stringify({ email }),
     })
-      .then(response =>response.json())
+      .then(response => response.json())
       .then(data => {
         console.log(data);
-        
+        if (data.message === 'Un email de réinitialisation a été envoyé.') {
+          notMessage = "Un email de réinitialisation a été envoyé.";
+          showNotification();
+        }
+        else if (data.message === 'Utilisateur non trouvé.') { 
+          setErrors({ general: 'Utilisateur non trouvé.' });
+        }
+        else {
+          setErrors({ general: 'Erreur lors de la récupération du mot de passe.' });
+        }
       })
       .catch(error => {
         console.log("Erreur lors de la récupération du mot de passe :", error);
       });
   };
+
   const handleSubmit = async (e) => {
-    setErrors({});
     e.preventDefault();
 
-    if (!email || !motDePasse) {
-      setErrors({ general: 'Tous les champs sont requis' });
-      return;
+    if (Object.keys(errors).length > 0) {
+      alert('Veuillez corriger les erreurs dans le formulaire.');
+      return; 
     }
 
     setLoading(true);
@@ -83,7 +119,7 @@ const LoginForm = ({ setIsLogin }) => {
       const data = await response.json();
 
       if (data.message === 'Connexion réussie.') {
-        notMessage = "Connection reussie!";
+        notMessage = "Connexion réussie!";
         showNotification();
         setTimeout(() => {
           window.location.href = '/';
@@ -100,14 +136,16 @@ const LoginForm = ({ setIsLogin }) => {
 
   return (
     <form onSubmit={handleSubmit} className="form">
-        {isNotificationVisible && (
+      {isNotificationVisible && (
         <Notification
-          message = {notMessage}
+          message={notMessage}
           duration={2000} 
           onClose={() => console.log("Notification fermée")}
         />
       )}
       {errors.general && <div className="error">{errors.general}</div>}
+      
+      {/* Champ email */}
       <div className="form-group">
         <label htmlFor="email">E-mail</label>
         <input
@@ -117,8 +155,10 @@ const LoginForm = ({ setIsLogin }) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Entrez votre email"
         />
+        {errors.email && <div className="error">{errors.email}</div>}
       </div>
 
+      {/* Champ mot de passe */}
       <div className="form-group">
         <label htmlFor="motDePasse">Mot de passe</label>
         <input
@@ -128,11 +168,16 @@ const LoginForm = ({ setIsLogin }) => {
           onChange={(e) => setMotDePasse(e.target.value)}
           placeholder="Entrez votre mot de passe"
         />
+        {errors.motDePasse && <div className="error">{errors.motDePasse}</div>}
       </div>
+      
+      {/* Lien pour récupérer le mot de passe */}
       <p className="toggle-form" onClick={resetClick}>Mot de passe oublié?</p>
-      <button type="submit" className="submit-button" disabled={loading}>
+
+      <button type="submit" className="submit-button" disabled={loading || Object.keys(errors).length > 0}>
         {loading ? 'Chargement...' : 'Se connecter'}
       </button>
+
       <p className="toggle-form" onClick={() => setIsLogin(false)}>
         Pas encore de compte ? Inscrivez-vous
       </p>
@@ -145,28 +190,63 @@ const RegisterForm = ({ setIsLogin }) => {
   const [email, setEmail] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
   const [cmotDePasse, setCmotDePasse] = useState('');
+  const [numero, setNumero] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [numero, setNumero] = useState('');
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+
   const showNotification = () => {
     setIsNotificationVisible(true);
     setTimeout(() => setIsNotificationVisible(false), 2000); 
   };
 
+  const validateForm = () => {
+    let formErrors = {};
+
+    // Validation du nom
+    if (!name) {
+      formErrors.name = "Le nom est requis.";
+    }
+
+    // Validation de l'email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email) {
+      formErrors.email = "L'email est requis.";
+    } else if (!emailRegex.test(email)) {
+      formErrors.email = "L'email n'est pas valide.";
+    }
+
+    // Validation du numéro de téléphone (optionnel)
+    if (numero && !/^\+237\d{8}$/.test(numero)) {
+      formErrors.numero = "Le numéro de téléphone n'est pas valide.";
+    }
+
+    // Validation du mot de passe
+    if (!motDePasse) {
+      formErrors.motDePasse = "Le mot de passe est requis.";
+    } else if (motDePasse.length < 6) {
+      formErrors.motDePasse = "Le mot de passe doit contenir au moins 6 caractères.";
+    }
+
+    // Validation de la confirmation du mot de passe
+    if (motDePasse !== cmotDePasse) {
+      formErrors.cmotDePasse = "Les mots de passe ne correspondent pas.";
+    }
+
+    setErrors(formErrors);
+  };
+
+  useEffect(() => {
+    // Valider en temps réel à chaque modification des champs
+    validateForm();
+  }, [name, email, motDePasse, cmotDePasse, numero]);
 
   const handleSubmit = async (e) => {
     setErrors({});
     e.preventDefault();
 
-    if (!name || !email || !motDePasse || !cmotDePasse) {
-      setErrors({ general: 'Tous les champs sont requis' });
-      return;
-    }
-
-    if (motDePasse !== cmotDePasse) {
-      setErrors({ general: 'Les mots de passe ne correspondent pas.' });
+    // Si des erreurs existent, ne pas soumettre le formulaire
+    if (Object.keys(errors).length > 0) {
       return;
     }
 
@@ -181,16 +261,17 @@ const RegisterForm = ({ setIsLogin }) => {
 
       const data = await response.json();
 
-      console.log(data.message);
-
-      if (data.message ==='Utilisateur enregistré avec succès.') {
-        notMessage = "Inscription reussie! Veuillez vous connecter.";
+      if (data.message === 'Utilisateur enregistré avec succès.') {
+        notMessage = "Inscription réussie!";
         showNotification();
-
         setTimeout(() => {
-          setIsLogin(true);
-      }, 3000);
-      } else {
+          setIsLogin(true); 
+        }, 3000);
+      } 
+      else if (data.message === 'Cet email est déjà utilisé.') {
+        setErrors({ email: 'Cet email est déjà utilisé.' });
+      }
+      else {
         setErrors({ general: 'Erreur lors de l\'inscription.' });
       }
     } catch (error) {
@@ -201,15 +282,17 @@ const RegisterForm = ({ setIsLogin }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form onSubmit={handleSubmit} className="form r_frm">
       {errors.general && <div className="error">{errors.general}</div>}
       {isNotificationVisible && (
         <Notification
-          message = {notMessage}
-          duration={3000} 
+          message="Inscription réussie! Veuillez vous connecter."
+          duration={3000}
           onClose={() => console.log("Notification fermée")}
         />
       )}
+
+      {/* Champ nom complet */}
       <div className="form-group">
         <label htmlFor="name">Nom Complet</label>
         <input
@@ -219,30 +302,37 @@ const RegisterForm = ({ setIsLogin }) => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Entrez votre nom"
         />
+        {errors.name && <div className="error">{errors.name}</div>}
       </div>
 
-      <div className='num'><div className="form-group">
-        <label htmlFor="numero">Tel</label>
-        <input
-          type="tel"
-          id="numero"
-          value={numero}
-          onChange={(e) => setNumero(e.target.value)}
-          placeholder="+2376********"
-        />
+      <div className='num'>
+        {/* Champ numéro de téléphone */}
+        <div className="form-group">
+          <label htmlFor="numero">Téléphone</label>
+          <input
+            type="tel"
+            id="numero"
+            value={numero}
+            onChange={(e) => setNumero(e.target.value)}
+            placeholder="+2376********"
+          />
+          {errors.numero && <div className="error">{errors.numero}</div>}
+        </div>
+
+        {/* Champ email */}
+        <div className="form-group">
+          <label htmlFor="email">E-mail</label>
+          <input
+            type="text"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Entrez votre email"
+          />
+          {errors.email && <div className="error">{errors.email}</div>}
+        </div>
       </div>
-
-      <div className="form-group">
-        <label htmlFor="email">E-mail</label>
-        <input
-          type="text"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Entrez votre email"
-        />
-      </div></div>
-
+      {/* Champ mot de passe */}
       <div className="form-group">
         <label htmlFor="motDePasse">Mot de passe</label>
         <input
@@ -252,8 +342,10 @@ const RegisterForm = ({ setIsLogin }) => {
           onChange={(e) => setMotDePasse(e.target.value)}
           placeholder="Entrez votre mot de passe"
         />
+        {errors.motDePasse && <div className="error">{errors.motDePasse}</div>}
       </div>
 
+      {/* Champ confirmation mot de passe */}
       <div className="form-group">
         <label htmlFor="cmotDePasse">Confirmation Mot de Passe</label>
         <input
@@ -263,16 +355,21 @@ const RegisterForm = ({ setIsLogin }) => {
           onChange={(e) => setCmotDePasse(e.target.value)}
           placeholder="Confirmez votre mot de passe"
         />
+        {errors.cmotDePasse && <div className="error">{errors.cmotDePasse}</div>}
       </div>
 
-      <button type="submit" className="submit-button" disabled={loading}>
+      {/* Bouton de soumission */}
+      <button type="submit" className="submit-button" disabled={loading || Object.keys(errors).length > 0}>
         {loading ? 'Chargement...' : 'S\'inscrire'}
       </button>
+
+      {/* Lien vers la page de connexion */}
       <p className="toggle-form" onClick={() => setIsLogin(true)}>
         Déjà un compte ? Connectez-vous
       </p>
     </form>
   );
 };
+
 
 export default Connexion;
