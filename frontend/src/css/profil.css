@@ -25,7 +25,6 @@ body {
 }
 
 /*==================== Navigation ============*/
-
 .navigation {
   position: fixed;
   width: 220px;
@@ -34,7 +33,9 @@ body {
   border-left: 10px solid var(--couleur);
   transition: 0.75s;
   overflow: hidden;
+  z-index: 1001; /* Ajouté pour être au-dessus de la topbar */
 }
+
 .navigation.active {
   width: 80px;
 }
@@ -45,6 +46,7 @@ body {
   left: 0;
   width: 100%;
 }
+
 .navigation ul li {
   position: relative;
   width: 100%;
@@ -89,6 +91,7 @@ body {
 .navigation ul li a .icon ion-icon {
   font-size: 1.75rem;
 }
+
 .logo {
   position: relative;
   background-color: var(--white);
@@ -123,6 +126,7 @@ body {
   box-shadow: 35px 35px 0 10px var(--white);
   pointer-events: none;
 }
+
 .navigation ul li:hover a::after,
 .navigation ul li.hovered a::after {
   content: '';
@@ -138,8 +142,6 @@ body {
 }
 
 /* ==================main============== */
-/* ==================main============== */
-
 .main {
   position: absolute;
   left: 230px;
@@ -159,7 +161,7 @@ body {
 }
 
 .navigation {
-  flex: 0 0 220px; /* Ne change pas de taille */
+  flex: 0 0 220px;
   height: 100%;
   background: var(--couleur);
   border-left: 10px solid var(--couleur);
@@ -168,13 +170,15 @@ body {
 }
 
 .main {
-  flex: 1; /* Prend tout l'espace restant */
+  flex: 1;
   min-height: 100vh;
   transition: 0.5s;
 }
 
+/* Modification de la topbar */
 .topbar {
-  width: 100%;
+  position: fixed;
+  width: calc(100% - 230px); /* Ajusté pour tenir compte de la navigation */
   height: 60px;
   display: flex;
   justify-content: space-between;
@@ -182,6 +186,15 @@ body {
   padding: 0 10px;
   background-color: #f8f9fa;
   border: 1px solid #ddd;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  transition: 0.5s;
+}
+
+/* Ajustement quand le menu est replié */
+.main.active .topbar {
+  width: calc(100% - 80px);
 }
 
 .toggle {
@@ -193,7 +206,6 @@ body {
   align-items: center;
   font-size: 2.5rem;
   cursor: pointer;
-  z-index: 1000;
 }
 
 .search {
@@ -256,6 +268,42 @@ body {
   position: relative;
   width: 80%;
   padding: 20px;
-  left:15%;
+  left: 15%;
+  margin-top: 60px; /* Ajouté pour éviter le chevauchement avec la topbar fixe */
   padding-top: 7%;
+}
+
+/*==================== Nom de la page ============*/
+.page-name {
+  color: var(--couleur);
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.page-name:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+  color: #502dd1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-name {
+  animation: fadeIn 0.5s ease forwards;
 }

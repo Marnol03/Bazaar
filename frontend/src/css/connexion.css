@@ -11,7 +11,6 @@ body, html {
   font-family: var(--font-family);
 }
 
-
 .page-container {
   display: flex;
   height: 100vh; /* Pleine hauteur de la fenêtre */
@@ -39,7 +38,7 @@ body, html {
 
 .form-container {
   background-color: var(--secondary-color);
-  padding:40px;
+  padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -113,10 +112,9 @@ body, html {
   text-align: center;
   margin-top: 20px;
   color: black;
-  left: 50%;
 }
 
-.google-login, .Facebook-login{
+.google-login, .facebook-login {
   color: black;
   border: solid 1px black;
   background-color: white;
@@ -125,13 +123,13 @@ body, html {
   font-size: 15px;
   margin: 5px;
   cursor: pointer;
-  width:100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.google-login:hover, .Facebook-login:hover {
+.google-login:hover, .facebook-login:hover {
   background-color: #dad8e2; /* Couleur légèrement plus sombre au survol */
 }
 
@@ -146,7 +144,26 @@ body, html {
   text-decoration: underline; /* Souligner au survol */
 }
 
-.facebook_logo, .google_logo{
+.facebook_logo, .google_logo {
   width: 45px;
   height: 40px;
+}
+
+.password-container {
+  display: flex;
+  align-items: center; /* Aligne verticalement l'icône et le champ de texte */
+}
+
+.password-container input {
+  flex: 1; /* Permet au champ de mot de passe d'occuper tout l'espace disponible */
+  padding-right: 40px; /* Espace pour l'icône */
+}
+
+.check {
+  cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+  margin-left: 10px; /* Espacement entre le champ et l'icône */
+  position: absolute; /* Pour un positionnement précis */
+  right: 10px; /* Positionne l'icône à droite dans le champ */
+  top: 50%; /* Centre verticalement l'icône */
+  transform: translateY(-50%); /* Ajuste le centrage */
 }

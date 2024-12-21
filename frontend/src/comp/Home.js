@@ -17,7 +17,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Nav from './nav';
-
+ 
 function App() {
   return (
     <>
@@ -27,6 +27,7 @@ function App() {
       <Autop/>
       <Art/>
       <Footer/>
+      
     </>  
   );
 }
