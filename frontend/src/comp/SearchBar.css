@@ -1,0 +1,71 @@
+.profil-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profil {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.profil:active {
+    color: blue;
+}
+
+.profil:hover::after {
+    content: "Profil";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #f0f0f0;
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* 🔽 Style du menu déroulant */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: #333 solid 0.5px;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 100;
+    min-width: 150px;
+}
+
+.dropdown-menu div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.dropdown-menu div:hover {
+    background: #f0f0f0;
+}
+
+.dropdown-menu .logout {
+    color: rgb(246, 244, 244);
+    background-color: rgb(247, 90, 79);
+}
+
+.logout:hover {
+    background: #ffe6e6;
+}

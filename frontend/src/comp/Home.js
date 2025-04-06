@@ -1,33 +1,40 @@
 import './Home.css';
 import React, { useState, useEffect, useRef } from 'react';
-import logo from '../images/logo.png';
-import { FaSearch, FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt, FaRegStar, FaCartPlus } from "react-icons/fa";
-import { IoIosLogIn } from "react-icons/io";
+import {FaChevronLeft, FaChevronRight, FaStar, FaStarHalfAlt, FaRegStar, FaCartPlus } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Nav from './Nav';
+import SearchBar from './SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 
+const SESSION_TIMEOUT = 60 * 60 * 1000;  // 1 heure
 
-function App() {
+const App = () => {
+  const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    try {
-      const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
-      const totalItems = currentCart.reduce((total, item) => total + item.quantity, 0);
-      setCartCount(totalItems);
-    } catch (error) {
-      console.error("Erreur lors de la récupération du panier:", error);
-      setCartCount(0);
-    }
-  }, []);
+    const interval = setInterval(() => {
+      const loginTime = localStorage.getItem("loginTime");
+
+      if (loginTime) {
+        const timeElapsed = Date.now() - parseInt(loginTime, 10);
+        if (timeElapsed > SESSION_TIMEOUT) {
+          localStorage.removeItem("user");
+          localStorage.removeItem("loginTime");
+          navigate('/connexion'); 
+        }
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);  
+  }, [navigate]);
 
   return (
     <>
       <Nav />
-      <BarreRecherche cartCount={cartCount} />
+      <SearchBar cartCount={cartCount} />
       <Categories />
       <Autop setCartCount={setCartCount}/>
       <Art setCartCount={setCartCount}/>
@@ -35,39 +42,6 @@ function App() {
     </>
   );
 }
-
-const BarreRecherche = ({ cartCount }) => {
-  const navigate = useNavigate();
-
-  const ConnexionClick = () => {
-    navigate('/connexion');
-  };
-  const handleCartClick = () => {
-    navigate('/panier'); 
-  };
-
-  return (
-    <div>
-      <div className='barrecherche'>  
-        <img src={logo} className="logo" alt="logo" />
-        <div className='recherche'>
-          <input type='text' placeholder='Recherche' className='int_recherche'/>
-          <div className='iconrecherche'><FaSearch /></div>
-        </div>
-        <div className='barrecherche_right'>
-          <div className='iconpanier' onClick={handleCartClick}>
-            <FaCartPlus />
-            <span className="cart-count">{cartCount}</span>
-          </div>
-          <div className="connexion" onClick={ConnexionClick}>
-            <IoIosLogIn />
-            <span>Connection</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 const Categories = () => {
@@ -136,7 +110,7 @@ const Autop = ({ setCartCount }) => {
     containerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
   };
 
-  {Print(articles)}
+  Print(articles)
 
   const scrollRight = () => {
     containerRef.current.scrollBy({ left: 300, behavior: 'smooth' });

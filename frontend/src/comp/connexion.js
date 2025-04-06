@@ -119,11 +119,14 @@ const LoginForm = ({ setIsLogin }) => {
       const data = await response.json();
 
       if (data.message === 'Connexion réussie.') {
-        notMessage = "Connexion réussie!";
-        showNotification();
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 2000);
+          localStorage.setItem("user", JSON.stringify({ email }));
+          localStorage.setItem("loginTime", Date.now().toString());
+      
+          notMessage = "Connexion réussie!";
+          showNotification();
+          setTimeout(() => {
+              window.location.href = '/';
+          }, 2000);
       } else {
         setErrors({ general: 'E-mail ou mot de passe incorrect.' });
       }
